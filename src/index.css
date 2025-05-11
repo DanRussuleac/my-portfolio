@@ -1,9 +1,7 @@
-/* ---------- CSS RESET ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,Segoe UI,Roboto;line-height:1.4;background:#f5f5f5;color:#222}
 img{max-width:100%;display:block}
 
-/* ---------- THEME ---------- */
 :root{
   --accent:#6366f1;
   --bg:#f5f5f5;
@@ -16,7 +14,6 @@ img{max-width:100%;display:block}
 }
 body,html{background:var(--bg);color:var(--fg)}
 
-/* ---------- UTILITY ---------- */
 .container{max-width:1100px;margin-inline:auto;padding:0 1rem}
 .section{padding:4rem 0}
 .section.alt{background:#eaeaea}.dark .section.alt{background:#1f2937}
@@ -24,14 +21,12 @@ body,html{background:var(--bg);color:var(--fg)}
 .skills-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
 .projects-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 
-/* ---------- COMPONENTS ---------- */
 .card{background:var(--bg);border:1px solid #d1d5db;border-radius:0.75rem;padding:1.5rem;box-shadow:0 2px 6px rgb(0 0 0/0.05)}
 .dark .card{background:#1e293b;border-color:#334155}
 .btn{display:inline-block;background:var(--accent);color:#fff;padding:0.75rem 1.5rem;border-radius:9999px;text-decoration:none;font-weight:600}
 .btn:hover{opacity:.9}
 .theme-toggle{background:none;border:none;font-size:1.25rem;cursor:pointer}
 
-/* ---------- LAYOUT ---------- */
 .header{position:sticky;top:0;backdrop-filter:blur(8px);background:rgba(255,255,255,.7);border-bottom:1px solid #e5e7eb}
 .dark .header{background:rgba(17,24,39,.7);border-color:#334155}
 .header__inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
@@ -53,6 +48,80 @@ body,html{background:var(--bg);color:var(--fg)}
 .contact-form input,.contact-form textarea{padding:0.75rem;border:1px solid #d1d5db;border-radius:0.5rem;width:100%}
 .dark .contact-form input,.dark .contact-form textarea{background:#1e293b;border-color:#334155;color:#f0f0f0}
 
-/* ---------- FOOTER ---------- */
 .footer{text-align:center;padding:2rem 0;font-size:0.875rem;border-top:1px solid #e5e7eb}
 .dark .footer{border-color:#334155}
+
+
+.shadow-md{box-shadow:0 4px 10px rgb(0 0 0/.06)}
+.glass{backdrop-filter:blur(10px);background:rgba(255,255,255,.15);padding:2rem;border-radius:1rem}
+.gradient-text{background:linear-gradient(90deg,var(--accent),#14b8a6);-webkit-background-clip:text;color:transparent}
+.underline-title{display:inline-block;position:relative;margin-bottom:1.25rem}
+.underline-title::after{content:\"\";position:absolute;left:0;bottom:-4px;width:100%;height:3px;background:var(--accent)}
+
+.gradient-text-2{
+  background:linear-gradient(90deg,#6366f1 0%,#06b6d4 100%);
+  -webkit-background-clip:text;color:transparent
+}
+.gradient-bg{background:linear-gradient(135deg,#f0f4ff 0%,#e6fffa 100%)}
+.dark .gradient-bg{background:#1e293b}
+.shadow-lg{box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.parallax{transform:translateZ(0);will-change:transform}
+.video-demo iframe{width:100%;height:315px;border:0;border-radius:12px;margin-top:2rem}
+
+
+.skills-grid .card{
+  min-height:135px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:1rem 1.25rem;
+}
+
+.card{transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 24px rgba(0,0,0,.08)}
+
+.project-card img{transition:transform .4s ease}
+.project-card:hover img{transform:scale(1.05)}
+
+.glass{backdrop-filter:blur(14px);background:rgba(255,255,255,.20)}
+.dark .glass{background:rgba(17,24,39,.45)}
+
+.gradient-bg{background:linear-gradient(135deg,#f8fafc 0%,#eefcfb 100%)}
+.dark .gradient-bg{background:#1e293b}
+
+.skills-grid .card{min-height:115px;padding:1rem;display:flex;justify-content:center;align-items:center;text-align:center;font-size:.95rem}
+
+.btn{transition:box-shadow .3s}
+.btn:hover{box-shadow:0 4px 12px rgba(99,102,241,.4)}
+
+.social-btn{
+  width:48px;height:48px;margin:0 .4rem;display:flex;align-items:center;justify-content:center;
+  background:#f1f5f9;border-radius:9999px;transition:transform .25s,box-shadow .25s;color:#0f172a
+}
+.social-btn:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 6px 14px rgba(0,0,0,.1)}
+.social-btn svg{width:24px;height:24px;pointer-events:none}
+
+.social-btn[aria-label=\"GitHub\"]:hover{color:#000}
+.social-btn[aria-label=\"LinkedIn\"]:hover{color:#0a66c2}
+
+.hero-cta{margin-top:1.3rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+
+.connect-section{text-align:center}
+.connect-section .social-row{justify-content:center;margin-top:1rem}
+
+.about-bg{background:linear-gradient(135deg,rgba(0,0,0,.55),rgba(0,0,0,.55)),url(/back.jpg) center/cover fixed}
+.about-card{background:rgba(255,255,255,.9);padding:2rem 2.5rem;border-radius:1rem;box-shadow:0 12px 28px rgba(0,0,0,.15)}
+
+.lead{font-size:1.15rem;margin-top:.75rem}
+
+.parallax{background-attachment:fixed}
+
+.skill-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;min-height:160px}
+.skill-icon svg{width:32px;height:32px}
+.skill-detail{font-size:.85rem;color:#475569}
+
+.social-btn:hover{transform:translateY(-4px) scale(1.1)}
+.social-btn svg{width:24px;height:24px}
+.social-btn[aria-label=\"GitHub\"]:hover{color:#000}
+.social-btn[aria-label=\"LinkedIn\"]:hover{color:#0a66c2}

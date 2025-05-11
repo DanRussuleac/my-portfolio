@@ -1,64 +1,76 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { FaGithub, FaLinkedin, FaDatabase, FaPython, FaDocker, FaLinux, FaReact, FaJsSquare, FaJava, FaGitAlt } from "react-icons/fa";
+import { SiHtml5, SiCss3 } from "react-icons/si";
 
-// -----------------------------
-// PERSONAL DATA (easy to tweak)
-// -----------------------------
 const name = "Dan Russuleac";
-const tagLine = "Graduate software engineer who turns multi‑terabyte data puzzles into blazing‑fast code.";
-const resumeFile = "/cv.pdf"; // place 7fe2dc43-fe73-4b56-b2ed-c0bbc9157cf0.pdf into the project /public folder and rename to cv.pdf
+const tagLine =
+  "Results-driven Computer Science graduate & Azure-certified professional ready to turn complex performance challenges into measurable wins.";
+const resumeFile = `${import.meta.env.BASE_URL}cv.pdf`;
 
-// Core + complementary skills
-const skills = [
-  "Python (advanced)",
-  "SQL & RDBMS tuning (PostgreSQL, MySQL, Azure SQL, Oracle)",
-  "JavaScript (ES2023)",
-  "React 18",
-  "Node.js / Express",
-  "Java",
-  "C & low‑level fundamentals",
-  "Azure (AZ‑900)",
-  "Git & CI/CD",
-  "Docker / Compose",
-  "Linux CLI & scripting",
+const socials = [
+  { label: "GitHub", url: "https://github.com/DanRussuleac", icon: <FaGithub /> },
+  { label: "LinkedIn", url: "https://www.linkedin.com/in/dan-r-2589662b0/", icon: <FaLinkedin /> },
 ];
 
-// Project showcase cards
+const skills = [
+  { label: "Python", detail: "Advanced", icon: <FaPython /> },
+  { label: "SQL", detail: "Intermediate", icon: <FaDatabase /> },
+  { label: "Linux / Bash", detail: "Systemd & scripting", icon: <FaLinux /> },
+  { label: "JavaScript", detail: "Intermediate", icon: <FaJsSquare /> },
+  { label: "React 18", detail: "Hooks & Router", icon: <FaReact /> },
+  { label: "Node / Express", detail: "REST APIs", icon: <FaGitAlt /> },
+  { label: "Java", detail: "OOP, Intermediate", icon: <FaJava /> },
+  { label: "Docker", detail: "Compose", icon: <FaDocker /> },
+  { label: "HTML", detail: "Semantic", icon: <SiHtml5 /> },
+  { label: "CSS", detail: "Responsive", icon: <SiCss3 /> },
+];
+
 const projects = [
   {
-    title: "MindCare – AI Mental‑Health Companion",
+    title: "MindCare – AI Mental-Health Companion",
     description:
-      "GPT‑powered chatbot delivering empathetic conversation, sleep‑pattern analysis and personalised wellness tasks. React SPA front‑end, Node/Express API, containerised PostgreSQL, full JWT auth & Docker‑Compose dev‑ops.",
-    image: "https://source.unsplash.com/800x600?mental-health", // swap with real screenshot
+      "Full-stack mental-health platform with GPT-powered chatbot, self-care tools and analytics (React + Node). Video demo coming soon.",
+    image: `${import.meta.env.BASE_URL}mindcare.png`,
     link: "https://github.com/DanRussuleac/MindCare_Test",
+    aos: "zoom-in-up",
   },
   {
-    title: "Music Visualizer – Real‑time Audio Spectra",
-    description:
-      "Interactive WebGL canvas that transforms live microphone input or MP3 files into dynamic frequency bars and particle fields. Vanilla JS, Web Audio API, and custom GLSL shaders.",
-    image: "https://source.unsplash.com/800x600?music", // update later
-    link: "https://github.com/DanRussuleac/MusicVisuals", // adjust if different
+    title: "Music Visualizer – Real-time Audio Spectra",
+    description: "WebGL canvas that turns music into dynamic visualisations in real time.",
+    image: `${import.meta.env.BASE_URL}music.png`,
+    link: "https://github.com/DanRussuleac/MusicVisuals",
+    aos: "zoom-in-up",
   },
   {
-    title: "Mobile Project – Habit Tracker PWA",
-    description:
-      "Cross‑platform React‑Native / Expo app that records habits, pushes daily reminder notifications, and syncs to a Supabase backend. Implemented optimistic UI, secure storage and offline caching.",
-    image: "https://source.unsplash.com/800x600?mobile-app", // placeholder
-    link: "https://github.com/DanRussuleac/MobileProject", // adjust repo name
+    title: "FitTrack – Android Fitness Coach (Java)",
+    description: "Android app for workout & calorie tracking, push notifications via FCM, Room DB sync to Firebase.",
+    image: `${import.meta.env.BASE_URL}fitness.jpg`,
+    link: "https://github.com/DanRussuleac/MobileProject",
+    aos: "zoom-in-up",
   },
 ];
 
-// -----------------------------
-// Helper components
-// -----------------------------
-function Card({ children, className = "" }) {
-  return <div className={`card ${className}`}>{children}</div>;
+function Card({ children, className = "", aos }) {
+  return (
+    <div className={`card ${className}`} data-aos={aos}>
+      {children}
+    </div>
+  );
+}
+
+function SocialButton({ url, icon, label }) {
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" className="social-btn" aria-label={label}>
+      {icon}
+    </a>
+  );
 }
 
 function Button({ href, children, download = false, external = false }) {
-  const props = external
-    ? { href, target: "_blank", rel: "noopener noreferrer" }
-    : { href, download };
+  const props = external ? { href, target: "_blank", rel: "noopener noreferrer" } : { href, download };
   return (
     <a className="btn" {...props}>
       {children}
@@ -66,98 +78,87 @@ function Button({ href, children, download = false, external = false }) {
   );
 }
 
-// -----------------------------
-// Main component
-// -----------------------------
 export default function App() {
   const [dark, setDark] = useState(false);
-
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
+  useEffect(() => {
+    AOS.init({ duration: 900, easing: "ease-out-cubic", once: true });
+  }, []);
+
   return (
     <div className="site-wrapper">
-      {/* Header */}
-      <header className="header">
+      <header className="header shadow-lg" data-aos="fade-down">
         <div className="container header__inner">
-          <a href="#home" className="logo">
-            {name}
-          </a>
+          <a href="#home" className="logo gradient-text">{name}</a>
           <nav className="nav">
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
+            <a href="#connect">Connect</a>
             <a href={resumeFile} download>
               CV
             </a>
-            <a href="#contact">Contact</a>
           </nav>
-          <button
-            aria-label="Toggle dark mode"
-            className="theme-toggle"
-            onClick={() => setDark(!dark)}
-          >
+          <button aria-label="Toggle dark mode" className="theme-toggle" onClick={() => setDark(!dark)}>
             {dark ? "☀️" : "🌙"}
           </button>
         </div>
       </header>
 
-      {/* Hero */}
-      <section id="home" className="hero">
-        <img
-          src="https://source.unsplash.com/1600x900?code"
-          alt="Background"
-          className="hero__bg"
-        />
-        <div className="hero__content container">
+      <section id="home" className="hero" data-aos="fade">
+        <img src={`${import.meta.env.BASE_URL}back.jpg`} alt="Background" className="hero__bg parallax" />
+        <div className="hero__content container glass">
           <h1>
-            Hi, I'm <span className="accent">{name}</span>
+            Hi, I'm <span className="accent gradient-text-2">{name}</span>
           </h1>
-          <p>{tagLine}</p>
-          <Button href="#projects">View My Work</Button>
-        </div>
-      </section>
-
-      {/* About */}
-      <section id="about" className="section">
-        <div className="container">
-          <h2>About Me</h2>
-          <p>
-            Results‑driven Computer Science graduate and Microsoft‑certified Azure
-            Fundamentals professional. In my SAP Center‑of‑Excellence internship I
-            slashed multi‑terabyte query runtimes by up to 300 % through index
-            design and SQL refactoring, and delivered weekly optimisation
-            briefings to both engineers and clients. I thrive where clean code
-            meets data‑driven performance, and I'm actively seeking a graduate
-            software‑engineering role where Python mastery, database tuning and
-            consultative communication create measurable wins.
-          </p>
-          <Button href={resumeFile} download>
-            Download CV
-          </Button>
-        </div>
-      </section>
-
-      {/* Skills */}
-      <section id="skills" className="section alt">
-        <div className="container">
-          <h2>Skills</h2>
-          <div className="grid skills-grid">
-            {skills.map((skill) => (
-              <Card key={skill}>{skill}</Card>
+          <p className="lead">{tagLine}</p>
+          <div className="hero-cta">
+            <Button href="#projects">View Projects</Button>
+            <Button href={resumeFile} download>
+              Download CV
+            </Button>
+          </div>
+          <div className="social-row" data-aos="zoom-in">
+            {socials.map((s) => (
+              <SocialButton key={s.label} {...s} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Projects */}
-      <section id="projects" className="section">
+      <section id="about" className="section alt about-bg" data-aos="fade-right">
+        <div className="container about-card">
+          <h2 className="underline-title">About Me</h2>
+          <p>
+            Results-driven Computer Science graduate and Microsoft-certified Azure Fundamentals (AZ-900) professional who has sharpened enterprise database performance in a SAP Centre-of-Excellence internship. Deep Python knowledge—core data structures, comprehensions, generator pipelines, pytest coverage—paired with advanced SQL tuning across PostgreSQL, MySQL, Azure SQL and Oracle, routinely slashing multi-terabyte query runtimes by up to 300 %. Translating CPU, memory and I/O telemetry into client-ready insights, I author optimisation reports, host client briefings and support production go-lives. I thrive where code quality, data insights and consultative communication intersect.
+          </p>
+        </div>
+      </section>
+
+      <section id="skills" className="section gradient-bg" data-aos="fade-left">
         <div className="container">
-          <h2>Projects</h2>
+          <h2 className="underline-title">Skill Highlights</h2>
+          <div className="grid skills-grid">
+            {skills.map(({ label, detail, icon }) => (
+              <Card key={label} aos="flip-up" className="skill-card">
+                <span className="skill-icon">{icon}</span>
+                <h3>{label}</h3>
+                <p className="skill-detail">{detail}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" className="section" data-aos="fade-up">
+        <div className="container">
+          <h2 className="underline-title">Projects</h2>
           <div className="grid projects-grid">
-            {projects.map(({ title, description, image, link }) => (
-              <Card key={title} className="project-card">
+            {projects.map(({ title, description, image, link, aos }) => (
+              <Card key={title} className="project-card" aos={aos}>
                 <img src={image} alt={`${title} screenshot`} />
                 <div className="project-card__body">
                   <h3>{title}</h3>
@@ -172,23 +173,22 @@ export default function App() {
         </div>
       </section>
 
-      {/* Contact */}
-      <section id="contact" className="section alt">
-        <div className="container contact-form">
-          <h2>Get In Touch</h2>
-          <form>
-            <input type="text" placeholder="Your Name" />
-            <input type="email" placeholder="Your Email" />
-            <textarea rows="5" placeholder="Your Message"></textarea>
-            <button type="submit" className="btn" disabled>
-              Send Message (coming soon)
-            </button>
-          </form>
+      <section id="connect" className="section alt" data-aos="fade-up">
+        <div className="container connect-section">
+          <h2 className="underline-title">Let's Connect</h2>
+          <p>I'm always open to opportunities and collaboration.</p>
+          <div className="social-row">
+            {socials.map((s) => (
+              <SocialButton key={s.label} {...s} />
+            ))}
+          </div>
         </div>
       </section>
 
-      <footer className="footer">
-        <p>&copy; {new Date().getFullYear()} {name}. All rights reserved.</p>
+      <footer className="footer" data-aos="fade-up">
+        <div className="container">
+          <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );
