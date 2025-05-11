@@ -2,12 +2,23 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FaGithub, FaLinkedin, FaDatabase, FaPython, FaDocker, FaLinux, FaReact, FaJsSquare, FaJava, FaGitAlt } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaDatabase,
+  FaPython,
+  FaDocker,
+  FaLinux,
+  FaReact,
+  FaJsSquare,
+  FaJava,
+  FaGitAlt,
+} from "react-icons/fa";
 import { SiHtml5, SiCss3 } from "react-icons/si";
 
 const name = "Dan Russuleac";
 const tagLine =
-  "Results-driven Computer Science graduate & Azure-certified professional ready to turn complex performance challenges into measurable wins.";
+  "Results-driven Computer Science & Azure-certified Graduate ready to turn complex performance challenges into measurable wins.";
 const resumeFile = `${import.meta.env.BASE_URL}cv.pdf`;
 
 const socials = [
@@ -32,16 +43,9 @@ const projects = [
   {
     title: "MindCare – AI Mental-Health Companion",
     description:
-      "Full-stack mental-health platform with GPT-powered chatbot, self-care tools and analytics (React + Node). Video demo coming soon.",
+      "Full-stack mental-health platform with GPT-powered chatbot, self-care tools and analytics (React + Node). Video demo coming soon!",
     image: `${import.meta.env.BASE_URL}mindcare.png`,
     link: "https://github.com/DanRussuleac/MindCare_Test",
-    aos: "zoom-in-up",
-  },
-  {
-    title: "Music Visualizer – Real-time Audio Spectra",
-    description: "WebGL canvas that turns music into dynamic visualisations in real time.",
-    image: `${import.meta.env.BASE_URL}music.png`,
-    link: "https://github.com/DanRussuleac/MusicVisuals",
     aos: "zoom-in-up",
   },
   {
@@ -51,6 +55,13 @@ const projects = [
     link: "https://github.com/DanRussuleac/MobileProject",
     aos: "zoom-in-up",
   },
+  {
+    title: "Music Visualizer – Real-time Audio Spectra",
+    description: "WebGL canvas that turns music into dynamic visualisations in real time.",
+    image: `${import.meta.env.BASE_URL}music.png`,
+    link: "https://github.com/DanRussuleac/MusicVisuals",
+    aos: "zoom-in-up",
+  }
 ];
 
 function Card({ children, className = "", aos }) {
@@ -63,14 +74,22 @@ function Card({ children, className = "", aos }) {
 
 function SocialButton({ url, icon, label }) {
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="social-btn" aria-label={label}>
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-btn"
+      aria-label={label}
+    >
       {icon}
     </a>
   );
 }
 
 function Button({ href, children, download = false, external = false }) {
-  const props = external ? { href, target: "_blank", rel: "noopener noreferrer" } : { href, download };
+  const props = external
+    ? { href, target: "_blank", rel: "noopener noreferrer" }
+    : { href, download };
   return (
     <a className="btn" {...props}>
       {children}
@@ -80,6 +99,8 @@ function Button({ href, children, download = false, external = false }) {
 
 export default function App() {
   const [dark, setDark] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
@@ -88,28 +109,47 @@ export default function App() {
     AOS.init({ duration: 900, easing: "ease-out-cubic", once: true });
   }, []);
 
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
   return (
     <div className="site-wrapper">
       <header className="header shadow-lg" data-aos="fade-down">
         <div className="container header__inner">
-          <a href="#home" className="logo gradient-text">{name}</a>
-          <nav className="nav">
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#connect">Connect</a>
-            <a href={resumeFile} download>
+          <a href="#home" className="logo gradient-text">
+            {name}
+          </a>
+
+          {/* mobile burger */}
+          <button className="burger" onClick={toggleMenu}>
+            ☰
+          </button>
+
+          <nav className={`nav ${menuOpen ? "open" : ""}`}>
+            <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+            <a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a>
+            <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
+            <a href="#connect" onClick={() => setMenuOpen(false)}>Connect</a>
+            <a href={resumeFile} download onClick={() => setMenuOpen(false)}>
               CV
             </a>
           </nav>
-          <button aria-label="Toggle dark mode" className="theme-toggle" onClick={() => setDark(!dark)}>
+
+          <button
+            aria-label="Toggle dark mode"
+            className="theme-toggle"
+            onClick={() => setDark(!dark)}
+          >
             {dark ? "☀️" : "🌙"}
           </button>
         </div>
       </header>
 
       <section id="home" className="hero" data-aos="fade">
-        <img src={`${import.meta.env.BASE_URL}back.jpg`} alt="Background" className="hero__bg parallax" />
+        <img
+          src={`${import.meta.env.BASE_URL}back.jpg`}
+          alt="Background"
+          className="hero__bg parallax"
+        />
         <div className="hero__content container glass">
           <h1>
             Hi, I'm <span className="accent gradient-text-2">{name}</span>
@@ -133,7 +173,16 @@ export default function App() {
         <div className="container about-card">
           <h2 className="underline-title">About Me</h2>
           <p>
-            Results-driven Computer Science graduate and Microsoft-certified Azure Fundamentals (AZ-900) professional who has sharpened enterprise database performance in a SAP Centre-of-Excellence internship. Deep Python knowledge—core data structures, comprehensions, generator pipelines, pytest coverage—paired with advanced SQL tuning across PostgreSQL, MySQL, Azure SQL and Oracle, routinely slashing multi-terabyte query runtimes by up to 300 %. Translating CPU, memory and I/O telemetry into client-ready insights, I author optimisation reports, host client briefings and support production go-lives. I thrive where code quality, data insights and consultative communication intersect.
+            Results-driven Computer Science and Microsoft-certified Azure
+            Fundamentals (AZ-900) Graduate who has sharpened enterprise database
+            performance in a SAP Centre-of-Excellence internship. Deep Python
+            knowledge—core data structures, comprehensions, generator pipelines,
+            pytest coverage—paired with advanced SQL tuning across PostgreSQL,
+            MySQL, Azure SQL and Oracle, routinely slashing multi-terabyte query
+            runtimes by up to 300 %. Translating CPU, memory and I/O telemetry into
+            client-ready insights, I author optimisation reports, host client
+            briefings and support production go-lives. I thrive where code quality,
+            data insights and consultative communication intersect.
           </p>
         </div>
       </section>
